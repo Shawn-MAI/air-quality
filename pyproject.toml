@@ -1,0 +1,26 @@
+[project]
+name = "air-quality"
+version = "0.1.0"
+description = "Air-Quality Intelligence Platform"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+    "sqlfluff",
+    "pre-commit",
+    "psycopg[binary]",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = [".specify"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

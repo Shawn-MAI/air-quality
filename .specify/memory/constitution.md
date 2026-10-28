@@ -1,11 +1,3 @@
-<!--
-SYNC IMPACT REPORT (scratch for human review; remove before committing)
-Version change: none (new document, template placeholders resolved) -> 1.0.0
-Modified principles: none (initial adoption)
-Added sections: Core Principles I-XII; Technical Standards; Development Workflow and Quality Gates; Governance
-Removed sections: none (template's five-principle and placeholder sections replaced by the requested structure)
-Deferred TODOs: none
--->
 # Air-Quality Intelligence Platform Constitution
 
 This constitution governs a personal data engineering and applied AI project that MUST run on free tiers only.
