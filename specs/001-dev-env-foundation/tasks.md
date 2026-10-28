@@ -156,7 +156,7 @@ Single flat repository (see plan.md, Source Code). Infrastructure at the root, P
 **Purpose**: Close out the feature's Definition of Done from the constitution.
 
 - [X] T035 Remove the scratch Sync Impact Report comment at the top of `.specify/memory/constitution.md` before the first commit
-- [ ] T036 Run quickstart Scenarios 1 to 6 from a clean clone in an empty directory. Record the OS, prerequisite versions, and the timing for Scenario 1 (under 15 minutes, SC-001) and Scenario 2 (under 2 minutes, SC-003) in the PR description
+- [X] T036 Run quickstart Scenarios 1 to 6 from a clean clone in an empty directory. Record the OS, prerequisite versions, and the timing for Scenario 1 (under 15 minutes, SC-001) and Scenario 2 (under 2 minutes, SC-003) in the PR description
 - [ ] T037 Open the pull request against the public repository and confirm that the `secrets` and `checks` jobs both pass on the skeleton (SC-004, FR-007)
 
 ---
