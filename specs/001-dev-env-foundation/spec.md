@@ -4,9 +4,19 @@
 
 **Created**: 2026-10-28
 
-**Status**: Draft
+**Status**: Approved (2026-10-28)
 
 **Input**: User description: "Project foundation and developer environment. Depends on: none (constitution ratified). A developer can clone the repository, run one command, and get a working local stack skeleton with linting, tests and continuous integration passing on an empty pipeline. Configuration and secrets are handled through environment files, and a contributor workflow is documented. Why: every later feature needs a reproducible base. Done when: a clean clone works with one start command and one test command, CI is green, and the README quickstart is verified."
+
+## Clarifications
+
+### Session 2026-10-28
+
+- Q: Which services should the local stack skeleton start? → A: Option A, data store only
+- Q: Which operating systems must a new contributor be able to use for the quickstart? → A: Option A, macOS and Linux natively; Windows contributors use a Linux environment on Windows
+- Q: Should the secret check run only locally before each commit, or also in the shared CI pipeline? → A: Option B, locally at commit time and again in CI on every change
+- Q: When a developer wants to delete the local stack's stored data, should that happen through the stop command or through a separate reset command? → A: Option A, stop never deletes data; a separate reset command deletes it after confirmation
+- Q: Should the shared CI pipeline start the local stack and check that it becomes healthy, or only run lint and tests? → A: Option B, CI also starts the stack and checks that its services become healthy
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -64,7 +74,7 @@ A contributor configures local settings and credentials through environment file
 
 - What happens when a required prerequisite is missing or an older version is installed? The start and test commands MUST stop early with a message naming the missing prerequisite.
 - What happens when a required port is already in use on the developer's machine? The start command MUST fail with a message naming the port and how to change it through the environment file.
-- What happens when a required environment value is missing? The start command MUST report which variable is missing and where it is documented, and MUST NOT start with a silent default for secrets.
+- What happens when a required environment value is missing? The start command MUST report which variable is missing and where it is documented, and MUST NOT start while a secret still has its `.env.example` placeholder value. The message MUST name the variable and say how to replace it.
 - What happens when the developer runs the test command before starting the stack? Tests that need the stack MUST report that the stack is not running rather than failing with unclear errors; tests that do not need it MUST still run.
 - What happens when a secret is accidentally placed in a tracked file? The repository MUST include an automated check that flags likely secrets before they are committed.
 
@@ -73,15 +83,15 @@ A contributor configures local settings and credentials through environment file
 ### Functional Requirements
 
 - **FR-001**: The repository MUST provide one documented command that starts the complete local stack from a clean clone.
-- **FR-002**: The local stack MUST include a relational data store with vector similarity search capability.
-- **FR-003**: The repository MUST provide one documented command that stops the local stack and removes its running services without deleting the developer's data unless explicitly requested.
+- **FR-002**: The local stack MUST include exactly one service: a relational data store with vector similarity search capability. No other services are part of this feature.
+- **FR-003**: The repository MUST provide one documented command that stops the local stack and removes its running services. Stopping MUST NOT delete stored data. The repository MUST also provide a separate documented reset command that deletes stored data only after the developer confirms.
 - **FR-004**: The repository MUST provide one documented command that runs lint and the full test suite.
 - **FR-005**: Lint and test results MUST report a clear pass or fail status and identify the file and location of each failure.
-- **FR-006**: A continuous integration pipeline MUST run the same lint and test checks automatically on every change proposed to the shared repository.
+- **FR-006**: A continuous integration pipeline MUST run the same lint and test checks automatically on every change proposed to the shared repository. The pipeline MUST also start the local stack and confirm that its services report healthy.
 - **FR-007**: The continuous integration pipeline MUST pass on the empty skeleton before the feature is considered complete.
 - **FR-008**: All configuration MUST be read from environment files, with an example file committed that lists every variable, its purpose, and a safe placeholder value.
 - **FR-009**: Real environment files and any credentials MUST be excluded from version control.
-- **FR-010**: The repository MUST include an automated check that blocks commits containing likely secrets.
+- **FR-010**: The repository MUST include an automated check that blocks commits containing likely secrets. The check MUST run locally at commit time and again in the continuous integration pipeline on every change.
 - **FR-011**: The README MUST contain a quickstart that a new contributor can follow from a clean clone to a running stack and passing checks, with no steps outside the README.
 - **FR-012**: The README MUST document the contributor workflow: setup, running checks, branching, and opening a change.
 - **FR-013**: The start and test commands MUST fail early with a message naming the problem when a prerequisite, port, or required variable is missing.
@@ -105,7 +115,7 @@ A contributor configures local settings and credentials through environment file
 
 ## Assumptions
 
-- Contributors have a personal computer with the prerequisite tooling installable from its vendor and no paid software is required.
+- Contributors have a personal computer with the prerequisite tooling installable from its vendor and no paid software is required. Contributors use macOS or Linux natively; Windows contributors use a Linux environment on Windows. Native Windows command support is out of scope for this feature.
 - The repository is public, so the continuous integration service used must be free for public projects.
 - This is the first feature, so there are no prior features to integrate with and no existing data to migrate.
 - The skeleton contains no data pipelines or business logic; its purpose is to prove the base works.
